@@ -25,48 +25,33 @@ allResults <- data.frame(
 
 ################################################################################
 ## WORKING #####################################################################
-# Averaged trust state results scatter plot 
-AveragedTrustState<-read.csv(file="AveragedTrustState.csv") 
-ATS <- data.frame(
-  TurnNumber=c(AveragedTrustState[, c(1)] ),
-  Condition=c(AveragedTrustState[, c(2)] ),
-  AverageTS=c(AveragedTrustState[, c(3)])
-)
-
-ggplot(ATS, aes(x=TurnNumber, y=AverageTS, color=Condition)) + 
-  geom_point(size=5) + 
-  scale_fill_manual(values = ColorsByCondition) +
-  labs(title="Trust State Averaged Results", x="Turn Number", y="Average Score") +
-  theme(plot.title = element_text(hjust=0.5)) + 
-  geom_rect(aes(xmin = 15, xmax = 25, ymin = -Inf, ymax = Inf), fill = "lightgrey", alpha = 0.01, linetype=0) +
-  expand_limits(x=c(1, 40), y=c(0, 5))
-
-################################################################################
 # All participant trust state results
+# Load necessary libraries
+library(ggplot2)
+
 SpecificTrustState<-read.csv(file="SpecificTrustState.csv") 
 STS <- data.frame(
-  TurnNumber=c(SpecificTrustState[, c(1)] ),
+  turn_number=c(SpecificTrustState[, c(1)] ),
   Condition=c(SpecificTrustState[, c(2)] ),
-  Participant=c(SpecificTrustState[, c(3)] ),
-  Score=c(SpecificTrustState[, c(4)] )
+  participantNumber=c(SpecificTrustState[, c(3)] ),
+  score=c(SpecificTrustState[, c(4)] )
 )
 
-# All Communication Plot
-STS$Condition = factor(STS$Condition, levels = c("NoWay", "OneWay", "TwoWay"))
-STS$TurnNumber = factor(STS$TurnNumber, levels = c(1,2,3,4,5,6,7,8,9,10,
-                                                  11,12,13,14,15,16,17,18,19,20, 
-                                                  21,22,23,24,25,26,27,28,29,30,
-                                                  31,32,33,34,35,36,37,38,39,40))
-STS$Participant = factor(STS$Participant, levels = c("P01","P02","P03","P04","P05"))
-
-ggplot(STS, aes(x=TurnNumber, y=Score, group=Condition, color=Condition)) + 
-  geom_point(data=STS[STS$Condition=="NoWay",], color =  "#f8766d", size=4) +
-  geom_point(data=STS[STS$Condition=="OneWay",], color =  "#619cff", size=4) +
-  geom_point(data=STS[STS$Condition=="TwoWay",], color =  "#00ba38", size=4) +
-  scale_fill_manual(values = ColorsByCondition) +
-  labs(title="Trust State Results", x="Turn Number", y="Average Score") +
+# Calculate the average scores for each condition and turn number
+averages <- aggregate(score ~ turn_number + Condition, data = STS, FUN = mean)
+condition_colors <- c(NoWay = "#f8766d", OneWay = "#619cff", TwoWay = "#00ba38")
+# Plot the averages on a scatterplot
+ggplot(averages, aes(x = turn_number, y = score, color = Condition)) +
+  geom_point(size=4) +
+  geom_line(linewidth=1.5) +
+  scale_color_manual(values = condition_colors) +
   theme(plot.title = element_text(hjust=0.5)) +
-  expand_limits(x=c(1, 40) )
+  labs(title = "Average Scores by Condition and Turn Number",
+       x = "Turn Number",
+       y = "Average Score")
+
+##############################################################################
+
 
 #legend went away
 
