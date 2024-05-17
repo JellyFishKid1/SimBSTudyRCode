@@ -1,0 +1,19 @@
+Categories,Condition,Average Score
+Mental Demand,NoWay,0
+Mental Demand,OneWay,4
+Mental Demand,TwoWay,3.8
+Physical Demand,NoWay,0
+Physical Demand,OneWay,4.6
+Physical Demand,TwoWay,3.4
+Temporal Demand,NoWay,0
+Temporal Demand,OneWay,4
+Temporal Demand,TwoWay,3.8
+Performance,NoWay,0
+Performance,OneWay,2.2
+Performance,TwoWay,3
+Effort,NoWay,0
+Effort,OneWay,4.2
+Effort,TwoWay,3.8
+Frustration,NoWay,0
+Frustration,OneWay,4.4
+Frustration,TwoWay,3.4
