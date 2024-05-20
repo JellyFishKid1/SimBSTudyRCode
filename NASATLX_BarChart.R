@@ -24,57 +24,62 @@ allResults <- data.frame(
 )
 
 ################################################################################
-## WORKING #####################################################################
-# All participant trust state results
-# Load necessary libraries
+################################################################################
+##In Progress ##################################################################
+# maybe add comments section?
+# add ability to hover and get values
+# data analysis -> glm to consider participant trends 
 library(ggplot2)
-
-SpecificTrustState<-read.csv(file="SpecificTrustState.csv") 
-STS <- data.frame(
-  turn_number=c(SpecificTrustState[, c(1)] ),
-  Condition=c(SpecificTrustState[, c(2)] ),
-  participantNumber=c(SpecificTrustState[, c(3)] ),
-  score=c(SpecificTrustState[, c(4)] )
+library(dplyr)
+DataTrustState<-read.csv(file="DataTrustState.csv") 
+DTSog <- data.frame(
+  participantNumber=c(DataTrustState[, c(1)] ),
+  Condition=c(DataTrustState[, c(2)] ),
+  turn_number=c(DataTrustState[, c(3)] ),
+  score=c(DataTrustState[, c(4)] )
 )
-
+# Remove rows with missing values in the "Score" column
+DTS <- DTSog[!is.na(DTSog$score), ]
+# Reorder the rows by Turn within each Condition
+sorted_DTS <- DTS %>% arrange(Condition, turn_number)
 # Calculate the average scores for each condition and turn number
-averages <- aggregate(score ~ turn_number + Condition, data = STS, FUN = mean)
+averages <- aggregate(score ~ turn_number + Condition, data = sorted_DTS, FUN = mean)
 condition_colors <- c(NoWay = "#f8766d", OneWay = "#619cff", TwoWay = "#00ba38")
-# Plot the averages on a scatterplot
+
+## Averages scatter plot
 ggplot(averages, aes(x = turn_number, y = score, color = Condition)) +
   geom_point(size=4) +
   geom_line(linewidth=1.5) +
   scale_color_manual(values = condition_colors) +
+  expand_limits(x=c(1, 40),y=c(1,5)) +
   theme(plot.title = element_text(hjust=0.5)) +
-  labs(title = "Average Scores by Condition and Turn Number",
+  labs(title = "Average Trust Scores by Condition and Turn Number",
        x = "Turn Number",
        y = "Average Score")
 
-##############################################################################
+## Oneway Communication Plot
+OneWay_data <- sorted_DTS[sorted_DTS$Condition == "OneWay", ]
+# Plot scatter plot
+blue_shades <- c("#619cff", "#4682d4", "#2f77ca", "#177cc0", "#086ea6", "#005a7a")
+# Plot scatterplot with connected lines, each a different shade of blue per participant
+ggplot(OneWay_data, aes(x = turn_number, y = score, color = as.factor(participantNumber))) +
+  geom_point(size=4) +
+  geom_line(linewidth=1.5, aes(group = participantNumber), alpha = 0.5) +
+  labs(x = "Turn Number", y = "Score", title = "Scatterplot of Participant Scores with Connected Lines") +
+  scale_color_manual(values = blue_shades) +
+  theme_minimal()
 
-
-#legend went away
-
-# ggplot(df, aes(x=year, y= score, group = label)) +
-#   geom_line(color='lightgrey')+
-#   geom_line(data = df[df$label=='CHL',], color = 'red') +
-#   geom_text(data = df[df$year == 2000,],mapping =aes(x=1999.5,label=label),color='lightgrey')+
-#   geom_text(data = df[df$year == 2000 & df$label=='CHL',],mapping =aes(x=1999.5,label=label),color='red')+
-#   theme_bw() +
-#   theme(legend.position = 'none')
-
-# Oneway Communication Plot
-ggplot(STS, aes(x=TurnNumber, y=Score, group=Condition, color=Condition)) + 
-  geom_point(data=STS[STS$Condition=="OneWay",], color =  "#619cff", size=4) +
-  scale_fill_manual(values = ColorsByCondition) +
-  labs(title="OneWayTrust State Results", x="Turn Number", y="Score") +
-  theme(plot.title = element_text(hjust=0.5)) +
-  expand_limits(x=c(1, 40) )
-
-# Twoway Communication Plot
-
-# Averaged Plot
-
+## Twoway Communication Plot
+TwoWay_data <- sorted_DTS[sorted_DTS$Condition == "TwoWay", ]
+# Plot scatter plot
+green_shades <- c("#00ba38", "#12c94b", "#24d45d", "#36df70", "#49ea82", "#5bf494")
+# Plot scatterplot with connected lines, each a different shade of blue per participant
+ggplot(TwoWay_data, aes(x = turn_number, y = score, color = as.factor(participantNumber))) +
+  geom_point(size=4) +
+  geom_line(linewidth=1.5, aes(group = participantNumber), alpha = 0.5) +
+  labs(x = "Turn Number", y = "Score", title = "Scatterplot of Participant Scores with Connected Lines") +
+  scale_color_manual(values = green_shades) +
+  theme_minimal()
 ################################################################################
 ################################################################################
 #Data from matlab performance metrics 
