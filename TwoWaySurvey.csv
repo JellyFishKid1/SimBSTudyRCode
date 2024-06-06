@@ -1,0 +1,73 @@
+What is your participant ID number?,Question,Score
+P01,Rate the following characteristics of the interface [Intuitiveness],5
+P02,Rate the following characteristics of the interface [Intuitiveness],4
+P03,Rate the following characteristics of the interface [Intuitiveness],5
+P04,Rate the following characteristics of the interface [Intuitiveness],5
+P05,Rate the following characteristics of the interface [Intuitiveness],4
+P06,Rate the following characteristics of the interface [Intuitiveness],5
+P07,Rate the following characteristics of the interface [Intuitiveness],5
+p08,Rate the following characteristics of the interface [Intuitiveness],4
+p09,Rate the following characteristics of the interface [Intuitiveness],4
+P10,Rate the following characteristics of the interface [Intuitiveness],5
+P01,Rate the following characteristics of the interface [Ease of Use],4
+P02,Rate the following characteristics of the interface [Ease of Use],4
+P03,Rate the following characteristics of the interface [Ease of Use],3
+P04,Rate the following characteristics of the interface [Ease of Use],3
+P05,Rate the following characteristics of the interface [Ease of Use],5
+P06,Rate the following characteristics of the interface [Ease of Use],4
+P07,Rate the following characteristics of the interface [Ease of Use],5
+p08,Rate the following characteristics of the interface [Ease of Use],5
+p09,Rate the following characteristics of the interface [Ease of Use],5
+P10,Rate the following characteristics of the interface [Ease of Use],4
+P01,Rate the following characteristics of the interface [Satisfaction],4
+P02,Rate the following characteristics of the interface [Satisfaction],4
+P03,Rate the following characteristics of the interface [Satisfaction],4
+P04,Rate the following characteristics of the interface [Satisfaction],4
+P05,Rate the following characteristics of the interface [Satisfaction],5
+P06,Rate the following characteristics of the interface [Satisfaction],4
+P07,Rate the following characteristics of the interface [Satisfaction],5
+p08,Rate the following characteristics of the interface [Satisfaction],4
+p09,Rate the following characteristics of the interface [Satisfaction],5
+P10,Rate the following characteristics of the interface [Satisfaction],5
+P01,Please rate the following [Your control of the vehicle],4
+P02,Please rate the following [Your control of the vehicle],4
+P03,Please rate the following [Your control of the vehicle],5
+P04,Please rate the following [Your control of the vehicle],5
+P05,Please rate the following [Your control of the vehicle],4
+P06,Please rate the following [Your control of the vehicle],5
+P07,Please rate the following [Your control of the vehicle],5
+p08,Please rate the following [Your control of the vehicle],5
+p09,Please rate the following [Your control of the vehicle],4
+P10,Please rate the following [Your control of the vehicle],4
+P01,Please rate the following [Your trust in automation],3
+P02,Please rate the following [Your trust in automation],2
+P03,Please rate the following [Your trust in automation],5
+P04,Please rate the following [Your trust in automation],3
+P05,Please rate the following [Your trust in automation],3
+P06,Please rate the following [Your trust in automation],4
+P07,Please rate the following [Your trust in automation],5
+p08,Please rate the following [Your trust in automation],2
+p09,Please rate the following [Your trust in automation],4
+P10,Please rate the following [Your trust in automation],3
+P01,Please rate the following [Awareness of automation’s intent based on bladder inflation],5
+P02,Please rate the following [Awareness of automation’s intent based on bladder inflation],5
+P03,Please rate the following [Awareness of automation’s intent based on bladder inflation],5
+P04,Please rate the following [Awareness of automation’s intent based on bladder inflation],5
+P05,Please rate the following [Awareness of automation’s intent based on bladder inflation],5
+P06,Please rate the following [Awareness of automation’s intent based on bladder inflation],5
+P07,Please rate the following [Awareness of automation’s intent based on bladder inflation],5
+p08,Please rate the following [Awareness of automation’s intent based on bladder inflation],5
+p09,Please rate the following [Awareness of automation’s intent based on bladder inflation],5
+P10,Please rate the following [Awareness of automation’s intent based on bladder inflation],5
+P01,Please rate the following [Awareness of automation’s action based on torque on the steering wheel],3
+P02,Please rate the following [Awareness of automation’s action based on torque on the steering wheel],3
+P03,Please rate the following [Awareness of automation’s action based on torque on the steering wheel],5
+P04,Please rate the following [Awareness of automation’s action based on torque on the steering wheel],4
+P05,Please rate the following [Awareness of automation’s action based on torque on the steering wheel],5
+P06,Please rate the following [Awareness of automation’s action based on torque on the steering wheel],4
+P07,Please rate the following [Awareness of automation’s action based on torque on the steering wheel],4
+p08,Please rate the following [Awareness of automation’s action based on torque on the steering wheel],5
+p09,Please rate the following [Awareness of automation’s action based on torque on the steering wheel],5
+P10,Please rate the following [Awareness of automation’s action based on torque on the steering wheel],5
+All,Number who reported confusion,3
+All,Number who used the brake,6

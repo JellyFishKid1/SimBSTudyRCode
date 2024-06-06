@@ -1,0 +1,284 @@
+---
+title: "Simulation StudyB Data"
+author: "Hannah Baez"
+date: "5/30/2024"
+output: html_document
+runtime: shiny 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Inflation Mapping Customization 
+### Direction Indicated by ...
+```{r inflationMapping, fig.align = 'left', echo=FALSE,results='hide',message=FALSE, warning=FALSE, fig.keep='all'}
+## Pie chart for customization 
+library(ggplot2)
+library(dplyr)
+
+# Create Data
+data <- data.frame(
+  group=c("Inflation", "Deflation"),
+  value=c(7,3)
+)
+# Compute the position of labels
+data <- data %>% 
+  arrange(desc(group)) %>%
+  mutate(prop = value / sum(data$value) *100) %>%
+  mutate(ypos = cumsum(prop)- 0.5*prop )
+
+data$percent <- scales::percent(data$value / sum(data$value))
+data$label <- paste(data$group, data$percent, sep = "\n")
+
+# Basic piechart
+ggplot(data, aes(x="", y=prop, fill=group)) +
+  geom_bar(stat="identity", width=1, color="white") +
+  coord_polar("y", start=0) +
+  theme_void() + 
+  theme(legend.position="none") +
+  geom_text(aes(y = ypos, label = label), color = "black", size=6) +
+  scale_fill_brewer(palette="Set1") +
+  theme(plot.title = element_text(size=18, hjust=0.5, face = "bold", line = 0.3)) +
+  scale_fill_manual(values=c("#FF9966", "#FFCC66")) 
+```
+
+## NASA-TLX Results for Each Category 
+```{r NASATLXCategories, echo=FALSE, results='hide',message=FALSE, warning=FALSE, fig.keep='all'}
+NASATLX<-read.csv(file="B Study_NASA-TLX.csv") 
+NASAOrg <- data.frame(
+  Participants=c(NASATLX[, c(1)] ),
+  Condition=c(NASATLX[, c(2)] ),
+  Category=c(NASATLX[, c(3)]),
+  Score=c(NASATLX[, c(4)])
+)
+################################################################################
+library(ggplot2)
+summary_stats_NASA <- with(NASAOrg, tapply(Score, list(Condition, Category), summary))
+
+# Stats Analysis
+library(tidyverse)
+library(ggpubr)
+library(rstatix)
+
+# Summary Stats
+NASAOrg %>%
+  group_by(Condition, Category) %>%
+  get_summary_stats(Score, type = "mean_sd")
+# actual anova
+res.aov1 <- anova_test(
+  data = NASAOrg, dv = Score, wid = Participants,
+  within = c(Condition, Category)
+)
+get_anova_table(res.aov1)
+# Pairwise comparisons between Conditions
+pwc <- NASAOrg %>%
+  group_by(Category) %>%
+  pairwise_t_test(
+    Score ~ Condition, paired = TRUE,
+    p.adjust.method = "bonferroni"
+  )
+pwc
+# Boxplot of summary stats
+pwc1 <- pwc %>% add_xy_position(x = "Category")
+bxp1 <- ggboxplot(
+  NASAOrg, x = "Category", y = "Score",
+  fill = "Condition", palette = c("#619cff", "#00ba38") 
+)
+bxp1 + 
+  stat_pvalue_manual(pwc1, tip.length = 0, hide.ns = TRUE) +
+  labs(
+    subtitle = get_test_label(res.aov1, detailed = TRUE),
+    caption = get_pwc_label(pwc1)
+  )
+```
+## NASA-TLX Results Between Conditions
+```{r NASATLXConditions, echo=FALSE, results='hide',message=FALSE, warning=FALSE, fig.keep='all'}
+
+# Boxplot of summary stats for Condition
+pwc2 <- pwc %>% add_xy_position(x = "Condition")
+bxp2 <- ggboxplot(
+  NASAOrg, x = "Condition", y = "Score",
+  fill = "Condition", palette = c("#619cff", "#00ba38") 
+)
+bxp2 + 
+  stat_pvalue_manual(pwc2, tip.length = 0, hide.ns = TRUE) +
+  labs(
+    subtitle = get_test_label(res.aov1, detailed = TRUE),
+    caption = get_pwc_label(pwc2) 
+  )
+```
+## Trust State Results for Each Turn
+```{r TRUSTStateTurns, echo=FALSE, results='hide',message=FALSE, warning=FALSE, fig.keep='all'}
+library(ggplot2)
+library(dplyr)
+DataTrustState<-read.csv(file="DataTrustState.csv") 
+DTSog <- data.frame(
+  participantNumber=c(DataTrustState[, c(1)] ),
+  Condition=c(DataTrustState[, c(2)] ),
+  turn_number=c(DataTrustState[, c(3)] ),
+  score=c(DataTrustState[, c(4)] )
+)
+# Remove rows with missing values in the "Score" column
+DTS <- DTSog[!is.na(DTSog$score), ]
+# Reorder the rows by Turn within each Condition
+sorted_DTS <- DTS %>% arrange(Condition, turn_number)
+################################################################################
+# Summary Stats
+sorted_DTS %>%
+  group_by(Condition, turn_number) %>%
+  get_summary_stats(score, type = "mean_sd")
+# actual anova
+res.aov2 <- anova_test(
+  data = sorted_DTS, dv = score, wid = participantNumber,
+  within = c(Condition, turn_number)
+)
+get_anova_table(res.aov2)
+# Pairwise comparisons between Conditions
+pwc3 <- sorted_DTS %>%
+  group_by(turn_number) %>%
+  pairwise_t_test(
+    score ~ Condition, paired = TRUE,
+    p.adjust.method = "bonferroni"
+  )
+pwc3
+# Boxplot of summary stats for turn number 
+pwc4 <- pwc3 %>% add_xy_position(x = "turn_number")
+bxp4 <- ggboxplot(
+  sorted_DTS, x = "turn_number", y = "score",
+  fill = "Condition", palette = c("#619cff", "#00ba38") 
+)
+bxp4 + 
+  stat_pvalue_manual(pwc4, tip.length = 0, hide.ns = TRUE) +
+  labs(
+    subtitle = get_test_label(res.aov, detailed = TRUE),
+    caption = get_pwc_label(pwc4) 
+  )
+```
+## Trust State Results Between Conditions 
+```{r TRUSTStateConditions, echo=FALSE, results='hide',message=FALSE, warning=FALSE, fig.keep='all'}
+pwc5 <- pwc3 %>% add_xy_position(x = "Condition")
+bxp5 <- ggboxplot(
+  sorted_DTS, x = "Condition", y = "score",
+  fill = "Condition", palette = c("#619cff", "#00ba38") 
+)
+bxp5 + 
+  stat_pvalue_manual(pwc5, tip.length = 0, hide.ns = TRUE) +
+  labs(
+    subtitle = get_test_label(res.aov, detailed = TRUE),
+    caption = get_pwc_label(pwc5) 
+  )
+```
+## Trust State Results for Stage 1
+```{r TRUSTStateStage1, echo=FALSE, results='hide',message=FALSE, warning=FALSE, fig.keep='all'}
+# Now divided into sections (1,2,3) for average conditional difference
+sorted_DTS_Stage1 <- sorted_DTS[sorted_DTS$turn_number < 14, ]
+sorted_DTS_Stage2 <- sorted_DTS[sorted_DTS$turn_number <= 25 & sorted_DTS$turn_number >= 14, ]
+sorted_DTS_Stage3 <- sorted_DTS[sorted_DTS$turn_number < 25, ]
+##################################################################################################
+# Summary Stats
+sorted_DTS_Stage1 %>%
+  group_by(Condition, turn_number) %>%
+  get_summary_stats(score, type = "mean_sd")
+# actual anova
+res.aov3 <- anova_test(
+  data = sorted_DTS_Stage1, dv = score, wid = participantNumber,
+  within = c(Condition, turn_number)
+)
+get_anova_table(res.aov3)
+# Pairwise comparisons between Conditions
+pwc6 <- sorted_DTS_Stage1 %>%
+  group_by(turn_number) %>%
+  pairwise_t_test(
+    score ~ Condition, paired = TRUE,
+    p.adjust.method = "bonferroni"
+  )
+pwc6
+# Boxplot of summary stats for Condition
+pwc7 <- pwc6 %>% add_xy_position(x = "Condition")
+bxp <- ggboxplot(
+  sorted_DTS_Stage1, x = "Condition", y = "score",
+  fill = "Condition", palette = c("#619cff", "#00ba38") 
+)
+bxp7 + 
+  stat_pvalue_manual(pwc7, tip.length = 0, hide.ns = TRUE) +
+  labs(
+    subtitle = get_test_label(res.aov3, detailed = TRUE),
+    caption = get_pwc_label(pwc7) 
+  )
+```
+
+## Trust State Results for Stage 2
+```{r TRUSTStateStage2, echo=FALSE, results='hide',message=FALSE, warning=FALSE, fig.keep='all'}
+sorted_DTS_Stage2 %>%
+  group_by(Condition, turn_number) %>%
+  get_summary_stats(score, type = "mean_sd")
+# actual anova
+res.aov4 <- anova_test(
+  data = sorted_DTS_Stage2, dv = score, wid = participantNumber,
+  within = c(Condition, turn_number)
+)
+get_anova_table(res.aov4)
+# Pairwise comparisons between Conditions
+pwc8 <- sorted_DTS_Stage2 %>%
+  group_by(turn_number) %>%
+  pairwise_t_test(
+    score ~ Condition, paired = TRUE,
+    p.adjust.method = "bonferroni"
+  )
+pwc8
+# Boxplot of summary stats for Condition
+pwc9 <- pwc8 %>% add_xy_position(x = "Condition")
+bxp9 <- ggboxplot(
+  sorted_DTS_Stage2, x = "Condition", y = "score",
+  fill = "Condition", palette = c("#619cff", "#00ba38") 
+)
+bxp9 + 
+  stat_pvalue_manual(pwc9, tip.length = 0, hide.ns = TRUE) +
+  labs(
+    subtitle = get_test_label(res.aov4, detailed = TRUE),
+    caption = get_pwc_label(pwc9) 
+  )
+```
+
+
+## Trust State Results for Stage 3
+```{r TRUSTStateStage3, echo=FALSE, results='hide',message=FALSE, warning=FALSE, fig.keep='all'}
+
+```
+
+
+## Trust State Results for Differences 
+```{r TRUSTStateDifferences, echo=FALSE, results='hide',message=FALSE, warning=FALSE, fig.keep='all'}
+
+```
+
+## Trust Per-Participant 
+```{r trustStatePerPArticipant, echo=FALSE, results='hide',message=FALSE, warning=FALSE, fig.keep='all'}
+
+# # Define available participant numbers
+# participant_nums <- unique(df$participantNum)
+# 
+# selectInput("participant", "Participant Number:", choices = participant_nums)
+# # Reactive expression to subset data based on selected participant
+# participant_data <- reactive({
+#   subset(df, participantNum == input$participant)
+# })
+# 
+# # Plot the scores for each turn number for both conditions
+# output$plot <- renderPlot({
+#   ggplot(participant_data(), aes(x = turnNum, y = score, color = condition)) +
+#     geom_line() +
+#     labs(x = "Turn Number", y = "Score") +
+#     ggtitle(paste("Scores for Participant", input$participant))
+# })
+# 
+# # Render the plot
+# plotOutput("plot")
+
+```
+
+
+
+
+

@@ -13,6 +13,12 @@ P06,2-way communication,MentalDemand,2
 P06,1-way communication,MentalDemand,3
 P07,2-way communication,MentalDemand,4
 P07,1-way communication,MentalDemand,6
+p08,2-way communication,MentalDemand,3
+p08,1-way communication,MentalDemand,4
+p09,2-way communication,MentalDemand,2
+p09,1-way communication,MentalDemand,4
+P10,2-way communication,MentalDemand,3
+P10,1-way communication,MentalDemand,3
 P01,1-way communication,Physical Demand,6
 P01,2-way communication,Physical Demand,2
 P02,1-way communication,Physical Demand,6
@@ -27,6 +33,12 @@ P06,2-way communication,Physical Demand,1
 P06,1-way communication,Physical Demand,1
 P07,2-way communication,Physical Demand,3
 P07,1-way communication,Physical Demand,6
+p08,2-way communication,Physical Demand,2
+p08,1-way communication,Physical Demand,3
+p09,2-way communication,Physical Demand,1
+p09,1-way communication,Physical Demand,4
+P10,2-way communication,Physical Demand,3
+P10,1-way communication,Physical Demand,4
 P01,1-way communication,Temporal Demand,2
 P01,2-way communication,Temporal Demand,2
 P02,1-way communication,Temporal Demand,6
@@ -41,6 +53,12 @@ P06,2-way communication,Temporal Demand,1
 P06,1-way communication,Temporal Demand,1
 P07,2-way communication,Temporal Demand,1
 P07,1-way communication,Temporal Demand,2
+p08,2-way communication,Temporal Demand,2
+p08,1-way communication,Temporal Demand,3
+p09,2-way communication,Temporal Demand,2
+p09,1-way communication,Temporal Demand,2
+P10,2-way communication,Temporal Demand,1
+P10,1-way communication,Temporal Demand,3
 P01,1-way communication,Performance,5
 P01,2-way communication,Performance,6
 P02,1-way communication,Performance,1
@@ -55,6 +73,12 @@ P06,2-way communication,Performance,2
 P06,1-way communication,Performance,1
 P07,2-way communication,Performance,1
 P07,1-way communication,Performance,2
+p08,2-way communication,Performance,1
+p08,1-way communication,Performance,1
+p09,2-way communication,Performance,1
+p09,1-way communication,Performance,1
+P10,2-way communication,Performance,5
+P10,1-way communication,Performance,5
 P01,1-way communication,Effort,5
 P01,2-way communication,Effort,4
 P02,1-way communication,Effort,6
@@ -69,6 +93,12 @@ P06,2-way communication,Effort,2
 P06,1-way communication,Effort,3
 P07,2-way communication,Effort,3
 P07,1-way communication,Effort,6
+p08,2-way communication,Effort,3
+p08,1-way communication,Effort,4
+p09,2-way communication,Effort,2
+p09,1-way communication,Effort,3
+P10,2-way communication,Effort,4
+P10,1-way communication,Effort,4
 P01,1-way communication,Frustration,6
 P01,2-way communication,Frustration,2
 P02,1-way communication,Frustration,5
@@ -83,3 +113,9 @@ P06,2-way communication,Frustration,1
 P06,1-way communication,Frustration,2
 P07,2-way communication,Frustration,1
 P07,1-way communication,Frustration,5
+p08,2-way communication,Frustration,2
+p08,1-way communication,Frustration,3
+p09,2-way communication,Frustration,1
+p09,1-way communication,Frustration,2
+P10,2-way communication,Frustration,1
+P10,1-way communication,Frustration,1
